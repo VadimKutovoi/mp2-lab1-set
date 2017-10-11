@@ -32,14 +32,14 @@ int TBitField::GetMemIndex(const int n) const // индекс Мем для би
 {
 	if( n < 0 || n >= BitLen) throw n;
 
-	return n/(8*sizeof(TELEM));
+	else return n/(8*sizeof(TELEM));
 }
 
 TELEM TBitField::GetMemMask(const int n) const // битовая маска для бита n
 {
 	if( n < 0 || n >= BitLen) throw n;
 
-	return 1<<n%(sizeof(TELEM)*8);
+	else return 1<<n%(sizeof(TELEM)*8);
 }
 
 // доступ к битам битового поля
@@ -53,21 +53,21 @@ void TBitField::SetBit(const int n) // установить бит
 {
 	if( n < 0 || n >= BitLen) throw n;
 
-	pMem[GetMemIndex(n)]|=GetMemMask(n);
+	else pMem[GetMemIndex(n)]|=GetMemMask(n);
 }
 
 void TBitField::ClrBit(const int n) // очистить бит
 {
 	if( n < 0 || n >= BitLen) throw n;
 
-	pMem[GetMemIndex(n)]&=~GetMemMask(n);
+	else pMem[GetMemIndex(n)]&=~GetMemMask(n);
 }
 
 int TBitField::GetBit(const int n) const // получить значение бита
 {
 	if( n < 0 || n >= BitLen) throw n;
 
-	return GetMemMask(n) & pMem[GetMemIndex(n)];
+	else return GetMemMask(n) & pMem[GetMemIndex(n)];
 }
 
 // битовые операции
@@ -126,11 +126,15 @@ TBitField TBitField::operator~(void) // отрицание
 
 istream &operator>>(istream &istr, TBitField &bf) // ввод
 {
+    char sym;
 	int i = 0;
-	while ((i >= 0) && (i < bf.BitLen))
+	istr>>sym;
+	while ((sym == 0) || (sym == 1))
 	{
-		bf.SetBit(i); 
-		istr >> i;
+		if(sym == 0) bf.ClrBit(i);
+		else bf.SetBit(i);
+		i++;
+		istr>>sym;
 	}
 	return istr;
 }
