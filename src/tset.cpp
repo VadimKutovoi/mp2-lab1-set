@@ -58,14 +58,14 @@ TSet& TSet::operator=(const TSet &s) // присваивание
 
 int TSet::operator==(const TSet &s) const // сравнение
 {
-	if((MaxPower!=s.MaxPower)&&(s.BitField!=BitField)) return 0;
-	else return 1;
+	if (MaxPower != s.MaxPower) return 0;
+	if (BitField != s.BitField) return 0;
+	return 1;
 }
 
 int TSet::operator!=(const TSet &s) const // сравнение
 {
-	if((MaxPower==s.MaxPower)&&(s.BitField==BitField)) return 1;
-	else return 0;
+	return !(*this == s);
 }
 
 TSet TSet::operator+(const TSet &s) // объединение
